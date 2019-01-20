@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Latest compiled and minified Bootstrap 3.3.7 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <title>Nikki Truong - Shopify Summer 2019 Web Challenge</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="header">
+                <h2>Toronto Waste Lookup</h2>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav><!-- /.navbar-collapse -->
+
+    <div class="container">
+
+        <!-- search box -->
+        <div class="input-group">
+            <label class="control-label" for="searchBox"></label>
+            <input type="text" class="form-control" placeholder="Search" id="searchBox" />
+            <span class="input-group-addon" onclick="searchItems()">
+                <i class="fa fa-search"></i>
+            </span>
+        </div>
+
+        <!-- Data populating area -->
+        <div class="row">
+            <div class="col-md-12 results">
+                <div class="row body-rows" id="result-table"></div>
+            </div>
+            <div class="col-md-12 favourites">
+                <h3>Favourites</h3>
+                <div class="row body-rows" id="favourite-table"></div>
+            </div>
+        </div>
+
+    </div><!-- /.container-->
+
+    <!-- Latest compiled and minified jQuery 3.2.1 JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified Bootstrap 3.3.7 JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

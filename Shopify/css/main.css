@@ -1,0 +1,64 @@
+.input-group-addon{
+    background-color: #309b64;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    height: 100px;
+}
+
+.container-fluid{
+    background: linear-gradient(to right, #306399 0%, #309b64 100%);
+}
+
+.container{
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+.btn{
+    display: inline;
+}
+
+li{
+    font-size: 12pt;
+}
+
+.favourites{
+    background-color:rgb(247, 254, 250);
+    margin-top: 20px;
+    height: flex;
+}
+
+.results{
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.favourites h3{
+    color: #309b64;
+    font-size: 18pt;
+}
+
+.green-star:hover{
+    color: black;
+}
+
+.green-star{
+    color: #309b64;
+}
+
+.gray-star:hover{
+    color: #309b64;
+}
+
+.body-column{
+    font-size: 12pt;
+    padding: 5px 5px;
+}
