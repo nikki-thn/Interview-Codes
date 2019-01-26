@@ -62,7 +62,7 @@ function searchItems() {
         resultDiv.append('<h3 style="margin-left: 20px;">No item found</h3');
     }
 
-    reloadItems("#result-table", searchResults);
+    loadSearchItems("#result-table", searchResults);
 }
 
 //This method to set item favourite/unfavourite an item 
@@ -80,22 +80,17 @@ function favouriteItem(itemId) {
         }
     });
 
-    let favItems = _.filter(wasteItems, (item) => {
-        return item.isFavourited == true;
-    });
-
-     //to append favourite or remove unfavourite
-    reloadItems("#results-table", wasteItems); 
-    reloadItems("#favourite-table", favItems);
+    searchItems();
+    loadFavItems();
 }
 
 //This method will go through wasteItems and append favourites
-function reloadItems(divTbl, items) {
-
+function loadSearchItems(divTbl, items) {
+    //<%-item.tempId%> 
     let rowTemplate = _.template('<% _.forEach(wasteItems, function(item) { %>' +
         '<div class="row body-row">' +
         '<div class="col-sm-6 body-column"><span class"star" onclick="favouriteItem(this.id)" id="<%-item.tempId%>">' + 
-        '<i class="fa fa-star"></i></span> <%-item.tempId%> <%- item.title %></div>' +
+        '<i class="fa fa-star"></i></span> <%- item.title %></div>' +
         '<div class="col-sm-6 body-column"><%= item.body %></div>' + '</div>' + '<% }); %>');  
 
     //Location to append 
@@ -103,6 +98,7 @@ function reloadItems(divTbl, items) {
 
     $(divTbl).empty(); 
     $(divTbl).append(rows);
+
 
     items.forEach((item) => {
         let itemId = '#' + item.tempId;
@@ -112,5 +108,25 @@ function reloadItems(divTbl, items) {
             $(itemId).attr('class', 'gray-star');
         }
     });
-    
+}
+
+//This method will go through wasteItems and append favourites
+function loadFavItems() {
+
+    let favItems = _.filter(wasteItems, (item) => {
+        return item.isFavourited == true;
+    });
+
+    //Location to append 
+    let favouriteDiv = $("#favourite-table");
+    favouriteDiv.empty(); 
+
+    favItems.forEach(function (item) {
+        //Assign green star
+        var starTemplate = starTemplate = '<span class="star green-star" onclick="favouriteItem(this.id)" id="' 
+        + item.tempId + '"><i class="fa fa-star"></i></span> ';
+        favouriteDiv.append('<div class="col-sm-6 body-column">' + starTemplate + item.title + '</div>');
+        favouriteDiv.append('<div class="col-sm-6 body-column">' + item.body + '</div>');
+    });
+
 }
