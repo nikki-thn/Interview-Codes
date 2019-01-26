@@ -53,8 +53,7 @@ function searchItems() {
     let searchResults = $.grep(wasteItems, function (item) {
         return item.title.toLowerCase().match(searchKeyword) || 
                 item.body.toLowerCase().match(searchKeyword) ||
-                item.category.toLowerCase().match(searchKeyword) ||
-                item.keywords.toLowerCase().match(searchKeyword);
+                item.category.toLowerCase().match(searchKeyword);
     });
 
     //Alert user when no items found
