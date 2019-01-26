@@ -15,10 +15,6 @@
 }
 
 .container{
-    margin-left: auto;
-    margin-right: auto;
-    align-items: center;
-    justify-content: center;
     width: 100vw;
 }
 
@@ -54,11 +50,19 @@ li{
     color: #309b64;
 }
 
-.gray-star:hover{
+.gray-star:hover {
     color: #309b64;
 }
 
 .body-column{
     font-size: 12pt;
     padding: 5px 5px;
+}
+
+.body-rows{
+    width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    justify-content: center;
 }

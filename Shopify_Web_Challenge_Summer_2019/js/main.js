@@ -3,6 +3,10 @@ var wasteItems = []; // Storing data
 $(function () {
 
     makeAjaxCall(); // Make an ajax call to retrieve data
+
+    $("#searchBox").on("keyup", function(){ 
+        searchItems();
+    });
 });
 
 //This method make an ajax call to retrieve data and store in wasteItems array 
@@ -29,7 +33,7 @@ function makeAjaxCall() {
                 item.body = item.body.replace(/&amp;/g, '&');
                 item.body = item.body.replace(/&quot;/g, '"')
                 item.isFavourited = "false"; //property to favourite an item
-                item.tempId = ++id; //id to identify an item
+                item.tempId = id++; //id to identify an item
             });
         })
         .fail(function (err) {
@@ -43,83 +47,70 @@ function searchItems() {
     let resultDiv = $("#result-table");
     resultDiv.empty();
 
-    let searchKeyword = $("#searchBox").val();
+    let searchKeyword = $("#searchBox").val().toLowerCase();
 
-    //If no keyword was entered, alert a message
-    if (searchKeyword == "") {
-        alert("Please enter a keyword to begin searching");
+    //Search for matching item and store in an array
+    let searchResults = $.grep(wasteItems, function (item) {
+        return item.title.toLowerCase().match(searchKeyword) || 
+                item.body.toLowerCase().match(searchKeyword) ||
+                item.category.toLowerCase().match(searchKeyword) ||
+                item.keywords.toLowerCase().match(searchKeyword);
+    });
+
+    //Alert user when no items found
+    if (searchResults.length == 0) {
+        resultDiv.append('<h3 style="margin-left: 20px;">No item found</h3');
     }
-    // Else, process
-    else {
 
-        //Search for matching item and store in an array
-        let searchResults = $.grep(wasteItems, function (item) {
-            return item.title.toLowerCase().match(searchKeyword.toLowerCase());
-        });
-
-        //Alert user when no items found
-        if (searchResults.length == 0) {
-            resultDiv.append('<h3 style="margin-left: 20px;">No item found</h3');
-        }
-
-        //Append elements
-        searchResults.forEach(function (item) {
-            var starTemplate = "";
-
-            //Each star icon is assigned the item unique id for identification
-            if (item.isFavourited == true) {
-                //green star if item is favourited
-                starTemplate = '<span class="star green-star" onclick="favouriteItem(this.id)" id="'
-                    + item.tempId + '"><i class="fa fa-star"></i></span> ';
-            } else {
-                //gray star otherwise
-                starTemplate = '<span class="star gray-star"  onclick="favouriteItem(this.id)" id="'
-                    + item.tempId + '"><i class="fa fa-star"></i></span> ';
-            }
-
-            //append the item into assigned div
-            resultDiv.append('<div class="col-sm-6 body-column">' + starTemplate + item.title + '</div>');
-            resultDiv.append('<div class="col-sm-6 body-column">' + item.body + '</div>');
-        });
-    }
+    reloadItems("#result-table", searchResults);
 }
 
 //This method to set item favourite/unfavourite an item 
 function favouriteItem(itemId) {
 
     //set/unset isFavourited property
-    wasteItems.forEach(function (item) {
+    wasteItems.forEach((item) => {
         if (item.tempId == itemId) {
-
             //If favourited, unset
             if (item.isFavourited == true) {
                 item.isFavourited = false;
-            }
-            //Else, set item as favourite
-            else {
+            } else {
                 item.isFavourited = true;
             }
         }
     });
 
-    loadFavItems(); //to append favourite or remove unfavourite
-    searchItems(); //to reload the results section after change
+    let favItems = _.filter(wasteItems, (item) => {
+        return item.isFavourited == true;
+    });
+
+     //to append favourite or remove unfavourite
+    reloadItems("#results-table", wasteItems); 
+    reloadItems("#favourite-table", favItems);
 }
 
 //This method will go through wasteItems and append favourites
-function loadFavItems() {
+function reloadItems(divTbl, items) {
+
+    let rowTemplate = _.template('<% _.forEach(wasteItems, function(item) { %>' +
+        '<div class="row body-row">' +
+        '<div class="col-sm-6 body-column"><span class"star" onclick="favouriteItem(this.id)" id="<%-item.tempId%>">' + 
+        '<i class="fa fa-star"></i></span> <%-item.tempId%> <%- item.title %></div>' +
+        '<div class="col-sm-6 body-column"><%= item.body %></div>' + '</div>' + '<% }); %>');  
 
     //Location to append 
-    let favouriteDiv = $("#favourite-table");
-    favouriteDiv.empty(); 
+    let rows = rowTemplate({'wasteItems': items});
 
-    wasteItems.forEach(function (item) {
-        //Only display favourited item
-        if (item.isFavourited == true) {
-            //Assign green star
-            var starTemplate = '<span class="star green-star"><i class="fa fa-star"></i></span> ';
-            favouriteDiv.append('<div class="col-sm-6 body-column">' + starTemplate + item.title + '</div>');
-            favouriteDiv.append('<div class="col-sm-6 body-column">' + item.body + '</div>');
+    $(divTbl).empty(); 
+    $(divTbl).append(rows);
+
+    items.forEach((item) => {
+        let itemId = '#' + item.tempId;
+        if (item.isFavourited == true){
+            $(itemId).attr('class', 'green-star');
+        } else {
+            $(itemId).attr('class', 'gray-star');
         }
     });
+    
 }
